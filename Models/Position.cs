@@ -4,8 +4,16 @@ namespace BookEditor.Models
 {
     public class Position
     {
+        public void Clear()
+        {
+            Array.Clear(hand, 0, hand.Length);
+            Array.Clear(board, 0, board.Length);
+        }
+
         public void Set(string sfenStr)
         {
+            Clear();
+
             char token;
             int p, num;
             Square sq = Square.SQ_9A;

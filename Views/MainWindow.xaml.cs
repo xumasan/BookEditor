@@ -6,6 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Markup.Xaml;
 using Avalonia.Layout;
 using System;
+using System.Threading.Tasks;
 
 using BookEditor;
 using BookEditor.ViewModels;
@@ -18,15 +19,38 @@ namespace BookEditor.Views
         public MainWindow()
         {
             InitializeComponent();
-            // pos.Set("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1");
-            pos.Set("l6nl/5+P1gk/2np1S3/p1p4Pp/3P2Sp1/1PPb2P1P/P5GS1/R8/LN4bKL w RGgsn5p 1");
-            DrawBoard();
-            DrawHand();
+
+            fileOpenBtn = this.FindControl<Button>("fileOpenButton");
+            fileOpenBtn.Click += async (sender, e) => await OpenBookFile();
+
+            pos.Set("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1");
+            //pos.Set("l6nl/5+P1gk/2np1S3/p1p4Pp/3P2Sp1/1PPb2P1P/P5GS1/R8/LN4bKL w RGgsn5p 1");
+            DrawAll();
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private void Clear()
+        {
+            Array.Clear(rectSquares, 0, rectSquares.Length);
+            Array.Clear(rectHands, 0, rectHands.Length);
+
+            var board = this.FindControl<Grid>("board");
+            var bhand = this.FindControl<Grid>("bHand");
+            var whand = this.FindControl<Grid>("wHand");
+
+            board.Children.Clear();
+            bhand.Children.Clear();
+            whand.Children.Clear();
+        }
+
+        private void DrawAll()
+        {
+            DrawBoard();
+            DrawHand();
         }
 
         private void DrawBoard()
@@ -117,9 +141,43 @@ namespace BookEditor.Views
             hand.Children.Add(numTxt);
         }
 
+        private async Task OpenBookFile()
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Filters.Add(new FileDialogFilter() { Name = "Book Files", Extensions = { "db" } });
+            dlg.Filters.Add(new FileDialogFilter() { Name = "Book Files", Extensions = { "bin" } });
+            var result = await dlg.ShowAsync(this);
+            if (result != null)
+            {
+                ReadBookFile(result[0].ToString());
+            }
+        }
+
+        private void ReadBookFile(string path)
+        {
+            // とりあえず最初の定跡を表示する
+            Console.WriteLine("path " + path);
+            // お作法的によくない気がする....
+            var vm = DataContext as ViewModels.MainWindowViewModel;
+            book.ReadFile(path);
+            Clear();
+
+            var e = book.entries[0];
+            pos.Set(e.sfen);
+            DrawAll();
+
+            vm.KifMoves.Clear();
+            vm.NextMoves.Clear();
+
+            foreach (var m in e.moves)
+                vm.NextMoves.Add(m);
+        }
+
         private Rectangle[,]  rectSquares = new Rectangle[9, 9];
         private Rectangle[,]  rectHands   = new Rectangle[2, 8];
-        private Position pos = new Position();
+        private Position pos  = new Position();
+        private Book     book = new Book();
+        private Button fileOpenBtn;
 
         private readonly string[] PieceImagePaths = 
         {
