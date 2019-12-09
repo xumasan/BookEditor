@@ -209,9 +209,8 @@ namespace BookEditor.Views
         private void SelectMove(Move move)
         {
             var vm = DataContext as ViewModels.MainWindowViewModel;
-            for (int p = move.ply; p < vm.KifMoves.Count; ++p)
+            for (int p = vm.KifMoves.Count - 1; p > move.ply; --p)
             {
-                if (p == 0) continue;
                 vm.KifMoves.RemoveAt(p);
             }
             

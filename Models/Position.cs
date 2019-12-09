@@ -198,10 +198,8 @@ namespace BookEditor.Models
                     board[(int)to] = (Piece)((int)board[(int)to] + (int)Piece.PROMOTE_FLAG);
             }
 
-            gamePly++;
-
             sideToMove = op;
-            m.ply = gamePly;
+            m.ply = gamePly++;
         }
 
         public void PutPiece(Piece pc, Square sq)
