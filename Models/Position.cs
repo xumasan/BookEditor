@@ -191,11 +191,15 @@ namespace BookEditor.Models
                     hand[(int)us, (int)capType]++;
                 }
 
-                board[(int)to] = board[(int)from];
+                Piece movedPiece = board[(int)from];
+
+                board[(int)to] = movedPiece;
                 board[(int)from] = Piece.NO_PIECE;
 
                 if (m.IsPromote())
-                    board[(int)to] = (Piece)((int)board[(int)to] + (int)Piece.PROMOTE_FLAG);
+                {
+                    board[(int)to] = (Piece)((int)movedPiece + (int)Piece.PROMOTE_FLAG);
+                }
             }
 
             sideToMove = op;
@@ -226,7 +230,15 @@ namespace BookEditor.Models
         {
             for (var sq = Square.SQ_9A; sq <= Square.SQ_1I; ++sq)
             {
-                Console.Write("[{0}]", PieceToChar[(int)PieceOn(sq)]);
+                Piece p = PieceOn(sq);
+                if (Pieces.TypeOf(p) >= PieceType.PRO_PAWN)
+                {
+                    Console.Write("[+{0}]", PieceToChar[(int)p - (int)Piece.PROMOTE_FLAG]);
+                }
+                else
+                {
+                    Console.Write("[ {0}]", PieceToChar[(int)p]);
+                }
                 if (Files.FileIndex[(int)sq] == File.FILE_9)
                     Console.WriteLine("");
             }
