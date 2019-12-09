@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Markup.Xaml;
 using Avalonia.Layout;
+using Avalonia.Interactivity;
 using System;
 using System.Threading.Tasks;
 
@@ -23,6 +24,12 @@ namespace BookEditor.Views
             fileOpenBtn = this.FindControl<Button>("fileOpenButton");
             fileOpenBtn.Click += async (sender, e) => await OpenBookFile();
 
+            nextMovesList = this.FindControl<ItemsControl>("nextMoves");
+            nextMovesList.Tapped += NextMoveTapped;
+
+            kifMovesList = this.FindControl<ItemsControl>("kifMoves");
+            kifMovesList.Tapped += KifMoveTapped;
+
             pos.Set("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1");
             //pos.Set("l6nl/5+P1gk/2np1S3/p1p4Pp/3P2Sp1/1PPb2P1P/P5GS1/R8/LN4bKL w RGgsn5p 1");
             DrawAll();
@@ -31,6 +38,7 @@ namespace BookEditor.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+            Zobrist.Init();
         }
 
         private void Clear()
@@ -160,17 +168,94 @@ namespace BookEditor.Views
             // お作法的によくない気がする....
             var vm = DataContext as ViewModels.MainWindowViewModel;
             book.ReadFile(path);
-            Clear();
 
-            var e = book.entries[0];
-            pos.Set(e.sfen);
-            DrawAll();
+            pos.PrintBoard();
+
+            var e = book.FindEntry(pos.CalcHashFull());
+
+            // 定跡がない
+            if (e == null) return;
 
             vm.KifMoves.Clear();
             vm.NextMoves.Clear();
 
+            // 初期位置
+            vm.KifMoves.Add(new Move());
+
             foreach (var m in e.moves)
                 vm.NextMoves.Add(m);
+        }
+
+        private void DoMove(Move move)
+        {
+            pos.DoMove(move);
+            pos.PrintBoard();
+            Clear();
+            DrawAll();
+
+            var vm = DataContext as ViewModels.MainWindowViewModel;
+            vm.KifMoves.Add(move);
+            vm.NextMoves.Clear();
+
+            var e = book.FindEntry(pos.CalcHashFull());
+
+            // 定跡がない
+            if (e == null) return;
+
+            foreach (var m in e.moves)
+                vm.NextMoves.Add(m);
+        }
+
+        private void SelectMove(Move move)
+        {
+            var vm = DataContext as ViewModels.MainWindowViewModel;
+            for (int p = move.ply; p < vm.KifMoves.Count; ++p)
+            {
+                if (p == 0) continue;
+                vm.KifMoves.RemoveAt(p);
+            }
+            
+            vm.NextMoves.Clear();
+
+            // 初期局面から辿る (無駄が多いがとりあえず)
+            pos.Set("lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1");
+            foreach (var m in vm.KifMoves)
+            {
+                if (m.ply == 0) continue;
+                pos.DoMove(m);
+            }
+
+            pos.PrintBoard();
+            Clear();
+            DrawAll();
+
+            var e = book.FindEntry(pos.CalcHashFull());
+
+            // 定跡がない
+            if (e == null) return;
+
+            foreach (var m in e.moves)
+                vm.NextMoves.Add(m);
+        }
+
+        private void NextMoveTapped(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((Control)e.Source).DataContext;
+
+            if (dataContext is Move move)
+            {
+                DoMove(move);
+            }
+        }
+
+        private void KifMoveTapped(object sender, RoutedEventArgs e)
+        {
+            var dataContext = ((Control)e.Source).DataContext;
+
+            if (dataContext is Move move)
+            {
+                SelectMove(move);
+            }
         }
 
         private Rectangle[,]  rectSquares = new Rectangle[9, 9];
@@ -178,6 +263,8 @@ namespace BookEditor.Views
         private Position pos  = new Position();
         private Book     book = new Book();
         private Button fileOpenBtn;
+        private ItemsControl nextMovesList;
+        private ItemsControl kifMovesList;
 
         private readonly string[] PieceImagePaths = 
         {

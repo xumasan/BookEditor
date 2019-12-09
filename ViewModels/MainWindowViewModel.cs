@@ -13,9 +13,6 @@ namespace BookEditor.ViewModels
         {
             KifMoves = new ObservableCollection<Move>();
             NextMoves = new ObservableCollection<Move>();
-            KifMoves.Add(new Move(0, "26Fu"));
-            KifMoves.Add(new Move(0, "34Fu"));
-            NextMoves.Add(new Move(0, "34Fu"));
         }
 
         public ObservableCollection<Move> KifMoves { get; }

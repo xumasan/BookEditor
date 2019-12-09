@@ -210,7 +210,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="White"/>
                     </Grid.Background>
-                    <ItemsControl Items="{Binding KifMoves}">
+                    <ItemsControl Items="{Binding KifMoves}" x:Name="kifMoves">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -229,7 +229,7 @@
                         <SolidColorBrush Color="White"/>
                     </Grid.Background>
 
-                    <ItemsControl Items="{Binding NextMoves}">
+                    <ItemsControl Items="{Binding NextMoves}" x:Name="nextMoves">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
