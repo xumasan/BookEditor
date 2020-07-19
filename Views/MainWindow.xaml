@@ -41,9 +41,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Classes="menu" Name ="fileOpenButton" Margin="1,1,1,0" Grid.Column="0"> File </Button>
-            <Button Classes="menu" Margin="1,1,1,0" Grid.Column="1"> Edit </Button>
-            <Button Classes="menu" Margin="1,1,1,0" Grid.Column="2"> Help </Button>
+            <Button Classes="menu" Name ="fileOpenButton" Margin="1,1,1,0" Grid.Column="0"> ファイル </Button>
+            <Button Classes="menu" Margin="1,1,1,0" Grid.Column="1"> 編集 </Button>
+            <Button Classes="menu" Margin="1,1,1,0" Grid.Column="2"> ヘルプ </Button>
         </Grid> <!-- Menu Grid -->
 
         <!-- Text Grid -->

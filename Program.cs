@@ -1,6 +1,12 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Logging.Serilog;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.LogicalTree;
+using Avalonia.Skia;
+using Avalonia.ReactiveUI;
+using Avalonia.Threading;
+using Avalonia.Dialogs;
 using BookEditor.ViewModels;
 using BookEditor.Views;
 
@@ -17,8 +23,8 @@ namespace BookEditor
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToDebug()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .LogToDebug();
 
         // Your application's entry point. Here you can initialize your MVVM framework, DI
         // container, etc.
