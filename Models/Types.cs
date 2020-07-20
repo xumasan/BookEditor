@@ -163,7 +163,7 @@ namespace BookEditor.Models
             sfen = "StartPosition";
         }
 
-        public Move (string s)
+        public Move (Position pos, string s)
         {
             File f;
             Rank r;
@@ -175,6 +175,7 @@ namespace BookEditor.Models
                 f = (File)('9' - s[0]);
                 r = (Rank)(s[1] - 'a');
                 from = Squares.MakeSquare(f, r);
+                pt = pos.TypeOn(from);
             }
             else  {
                 pt = (PieceType)(DropChar.IndexOf(s[0]));
@@ -190,6 +191,7 @@ namespace BookEditor.Models
             Make(from, to, promote);
 
             sfen = ToSfen();
+            kif = ToKif(pt);
             ply = -1;
         }
 
@@ -215,6 +217,11 @@ namespace BookEditor.Models
             return (m & (1 << 14)) > 0;
         }
 
+        public string KifSquare(Square s)
+        {
+            return ((char)('9' - (int)Files.FileIndex[(int)s])).ToString() + ((char)('1' + (int)Ranks.RankIndex[(int)s])).ToString();
+        }
+
         public string UsiSquare(Square s)
         {
             if (s >= Square.SQUARE_NB)
@@ -236,8 +243,25 @@ namespace BookEditor.Models
             return move;
         }
 
+        public string ToKif(PieceType pt)
+        {
+            Square from = From();
+            Square to = To();
+
+            string move = KifSquare(to);
+
+            move += UniChar[(int)pt].ToString();
+
+            if (IsPromote())
+                move += "成";
+
+            return move;
+        }
+
+        readonly string[] UniChar  = {"", "歩", "香", "桂", "銀", "角", "飛", "金", "王", "と", "成香", "成桂", "成銀", "馬", "竜"};
         const string DropChar = " PLNSBRGK";
         public string sfen { get; set; }
+        public string kif { get; set; }
         public UInt16 m { get; set; }
         // 何手目に指されたか(Historyを遡る際に同一の指し手を判別するため)
         public int ply { get; set; }

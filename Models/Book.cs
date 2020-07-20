@@ -49,7 +49,7 @@ namespace BookEditor.Models
                 }
                 else if (find) {
                     var m = line.Split(' ');
-                    e.moves.Add(new Move(m[0]));
+                    e.moves.Add(new Move(pos, m[0]));
                 }
             }
 

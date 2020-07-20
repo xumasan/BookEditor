@@ -216,6 +216,11 @@ namespace BookEditor.Models
             return board[(int)sq];
         }
 
+        public PieceType TypeOn(Square sq)
+        {
+            return (PieceType)((int)board[(int)sq] & 0x0f);
+        }
+
         public int HandNum(Color c, PieceType pt)
         {
             return hand[(int)c, (int)pt];

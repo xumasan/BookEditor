@@ -157,7 +157,12 @@ namespace BookEditor.Views
             var result = await dlg.ShowAsync(this);
             if (result != null)
             {
-                ReadBookFile(result[0].ToString());
+                try
+                {
+                    ReadBookFile(result[0].ToString());
+                }
+                catch (Exception ex)
+                {}
             }
         }
 

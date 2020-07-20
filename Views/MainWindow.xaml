@@ -217,7 +217,7 @@
                                     HorizontalAlignment="Left" 
                                     FontSize = "20.0"
                                     Margin="2,2,0,0"
-                                    Text="{Binding sfen}"/>
+                                    Text="{Binding kif}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -236,7 +236,7 @@
                                     HorizontalAlignment="Left" 
                                     FontSize = "20.0"
                                     Margin="2,2,0,0"
-                                    Text="{Binding sfen}"/>
+                                    Text="{Binding kif}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
