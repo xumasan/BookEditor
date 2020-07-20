@@ -43,7 +43,7 @@
 
             <Button Classes="menu" Name ="fileOpenButton" Margin="1,1,1,0" Grid.Column="0"> ファイル </Button>
             <Button Classes="menu" Margin="1,1,1,0" Grid.Column="1"> 編集 </Button>
-            <Button Classes="menu" Margin="1,1,1,0" Grid.Column="2"> ヘルプ </Button>
+            <Button Classes="menu" Name ="helpButton" Margin="1,1,1,0" Grid.Column="2"> ヘルプ </Button>
         </Grid> <!-- Menu Grid -->
 
         <!-- Text Grid -->
@@ -210,17 +210,18 @@
                     <Grid.Background>
                         <SolidColorBrush Color="White"/>
                     </Grid.Background>
-                    <ItemsControl Items="{Binding KifMoves}" x:Name="kifMoves">
-                        <ItemsControl.ItemTemplate>
+                    <TreeView Items="{Binding KifMoves}" Height="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="kifMoves"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                        <TreeView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
                                     HorizontalAlignment="Left" 
                                     FontSize = "20.0"
-                                    Margin="2,2,0,0"
+                                    Margin="0,0,0,0"
                                     Text="{Binding kif}"/>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
                 </Grid>
                 <Grid
                     Grid.Column="1"
@@ -228,9 +229,9 @@
                     <Grid.Background>
                         <SolidColorBrush Color="White"/>
                     </Grid.Background>
-
-                    <ItemsControl Items="{Binding NextMoves}" x:Name="nextMoves">
-                        <ItemsControl.ItemTemplate>
+                    <TreeView Items="{Binding NextMoves}" Height="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="nextMoves"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                        <TreeView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
                                     HorizontalAlignment="Left" 
@@ -238,8 +239,8 @@
                                     Margin="2,2,0,0"
                                     Text="{Binding kif}"/>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
                 </Grid>
             </Grid>
         </Grid> <!-- Hand Board Grid -->

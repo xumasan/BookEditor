@@ -161,6 +161,7 @@ namespace BookEditor.Models
         public Move () {
             ply = 0;
             sfen = "StartPosition";
+            kif = "初期局面";
         }
 
         public Move (Position pos, string s)

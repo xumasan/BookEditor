@@ -24,6 +24,9 @@ namespace BookEditor.Views
             fileOpenBtn = this.FindControl<Button>("fileOpenButton");
             fileOpenBtn.Click += async (sender, e) => await OpenBookFile();
 
+            helpBtn = this.FindControl<Button>("helpButton");
+            helpBtn.Click += async (sender, e) => await OpenHelpDialog();
+
             nextMovesList = this.FindControl<ItemsControl>("nextMoves");
             nextMovesList.Tapped += NextMoveTapped;
 
@@ -191,6 +194,12 @@ namespace BookEditor.Views
                 vm.NextMoves.Add(m);
         }
 
+        private async Task OpenHelpDialog()
+        {
+            var hd = new HelpDialog();
+            await hd.ShowDialog(this);
+        }
+
         private void DoMove(Move move)
         {
             pos.DoMove(move);
@@ -267,6 +276,7 @@ namespace BookEditor.Views
         private Position pos  = new Position();
         private Book     book = new Book();
         private Button fileOpenBtn;
+        private Button helpBtn;
         private ItemsControl nextMovesList;
         private ItemsControl kifMovesList;
 

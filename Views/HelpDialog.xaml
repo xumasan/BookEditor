@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="100"
+        Width="200" Height="100"
+        xmlns:views="clr-namespace:BookEditor.Views"
+        x:Class="BookEditor.Views.HelpDialog"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="BookEditor">
+
+        <Grid>
+            <Grid.Background>
+                    <SolidColorBrush Color="Black"/>
+                </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid 
+                Grid.Row="0">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground = "White" FontSize = "15.0" Text="Book Editor v0.2"/>
+            </Grid> 
+            <Grid 
+                Grid.Row="1">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground = "White" FontSize = "12.0" Text="Author  : Hirotaka Kumagai"/>
+            </Grid> 
+            <Grid 
+                Grid.Row="2">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground = "White" FontSize = "10.0" Text="Twitter : @naonza0"/>
+            </Grid> 
+            <Grid 
+                Grid.Row="3">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground = "White" FontSize = "10.0" Text="License  : Not Ready"/>
+            </Grid> 
+        </Grid>
+</Window>
